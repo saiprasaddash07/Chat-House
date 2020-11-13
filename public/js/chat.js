@@ -11,6 +11,9 @@ const $messages = document.querySelector('#messages');
 const messageTemplate = document.querySelector('#message-template').innerHTML;
 const locationMessageTemplate = document.querySelector('#location-message-template').innerHTML;
 
+//OPTIONS
+const {username,room} = Qs.parse(location.search,{ignoreQueryPrefix : true});
+
 socket.on('message',(message)=>{
     console.log(message);
     const html = Mustache.render(messageTemplate,{
@@ -49,6 +52,7 @@ $messageForm.addEventListener('submit',(e)=>{
     });
 });
 
+//FUNCTION
 $sendLocation.addEventListener('click',()=>{
     if(!navigator.geolocation){
         return alert('Geolocation is not supported by your browser');
@@ -66,3 +70,5 @@ $sendLocation.addEventListener('click',()=>{
         });
     });
 })
+
+socket.emit('join',{username,room});
